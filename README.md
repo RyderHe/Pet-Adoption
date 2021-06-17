@@ -230,3 +230,9 @@ package.json
 .eslintrc.json
 .babelrc
 ```
+
+### 6. React Router
+
+```
+npm install react-router-dom@5.2.0
+```
