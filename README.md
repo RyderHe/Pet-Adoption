@@ -70,9 +70,56 @@ Create `eslintrc.json`:
         "node": true
     }
 }
+
 ```
 
 Run `npm run lint`
+
+To make ESlint understand React:
+
+```
+npm install -D eslint-plugin-import@2.22.1 eslint-plugin-jsx-a11y@6.4.1 eslint-plugin-react@7.22.0
+```
+
+In `.eslintrc.json`:
+
+```
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:import/errors",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "prettier"
+    ],
+
+    "rules": {
+        "react/prop-types": 0,
+        "react/react-in-jsx-scope": 0
+    },
+
+    "plugins": ["react", "import", "jsx-a11y"],
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    },
+
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}
+```
 
 ### 4. Parcel
 
