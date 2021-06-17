@@ -2,7 +2,8 @@ import { useState } from "react";
 
 const SearchParams = () => {
 
-    const [location, setLocation] = useState("Seattle, WA");
+    // Never put useState hook inside if/loop block
+    const [location, setLocation] = useState("Seattle, WA"); // Destructure - this is actually a tuple
 
     function updateLocation(e) {
         setLocation(e.target.value);
