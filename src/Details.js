@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Carousel from "./Carousel";
+import ErrorBoundary from "./ErrorBoundary";
 
 // const Details = () => {
 //     return (
@@ -36,6 +37,7 @@ class Details extends Component {
     }
 
     render() {
+
         const { animal, breed, city, state, description, name, images } = this.state;
 
         if (this.state.loading) { // You can put some animation here while loading -- loader
@@ -56,4 +58,13 @@ class Details extends Component {
     }
 }
 
-export default withRouter(Details);
+const DetailsWithRouter = withRouter(Details);
+
+// export default withRouter(Details);
+export default function DetailsWithErrorBoundary() {
+    return (
+        <ErrorBoundary>
+            <DetailsWithRouter />
+        </ErrorBoundary>
+    );
+};
