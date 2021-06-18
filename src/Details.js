@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
+import Modal from "./Modal";
 
 // const Details = () => {
 //     return (
@@ -18,7 +19,7 @@ class Details extends Component {
     //     this.state = { loading: true, name: "", animal: "", breed: "", };
     // }
 
-    state = { loading: true };
+    state = { loading: true, showModal: false };
 
     async componentDidMount() {
         const res = await fetch(
@@ -37,9 +38,13 @@ class Details extends Component {
         );
     }
 
+    toggleModal = () => this.setState({ showModal: !this.state.showModal })
+
+    adopt = () => (window.location = "http://bit.ly/pet-adopt");
+
     render() {
 
-        const { animal, breed, city, state, description, name, images } = this.state;
+        const { animal, breed, city, state, description, name, images, showModal } = this.state;
 
         if (this.state.loading) { // You can put some animation here while loading -- loader
             return <h2> loading ... </h2>;
@@ -55,11 +60,29 @@ class Details extends Component {
                     {/* The folowing is kind of messy and less convenient... Use useContext instead like in SearchParams.js */}
                     <ThemeContext.Consumer>
                         {(themeHook) => (
-                            <button style={ { backgroundColor: themeHook[0] } }>Adopt {name}</button>
+                            <button 
+                                onClick={this.toggleModal} 
+                                style={ { backgroundColor: themeHook[0] } }
+                            >
+                                Adopt {name}
+                            </button>
                         )}
                     </ThemeContext.Consumer>
                     
                     <p>{description}</p>
+                    {
+                        showModal ? (
+                            <Modal>
+                                <div>
+                                    <h1>Would you want to adopt {name} ?</h1>
+                                    <div className="buttons">
+                                        <button onClick={this.adopt}>Yes</button>
+                                        <button onClick={this.toggleModal}>No, Im a monster</button>
+                                    </div>
+                                </div>
+                            </Modal>
+                        ) : null
+                    }
                 </div>
             </div>
         );
