@@ -184,6 +184,8 @@ In `package.json`:
 
 Run `npm run dev```, then go to http://localhost:1234.
 
+If parcel got into a bad state, run `rm -rf .cache dist` and then rerun `npm run dev` again.
+
 ---------------------------------
 
 This will pull React and ReactDOM down from npm and put it in your node_modules directory. 
@@ -235,4 +237,95 @@ package.json
 
 ```
 npm install react-router-dom@5.2.0
+```
+
+### 7. Class Components
+
+Typically, to write state of class components: 
+
+```
+class Details extends Component {
+    constructor() {
+        super();
+        this.state = { loading: true };
+    }
+}
+```
+
+If you want to waite in this way:
+
+```
+class Details extends Component {
+    state = { loading: true };
+}
+```
+
+The parser would consider it an error.
+
+To make it work:
+
+```
+npm i -D @babel/plugin-proposal-class-properties@7.13.0 @babel/preset-env@7.13.5 @babel/eslint-parser@7.13.4
+```
+
+In `.babelrc`:
+
+```
+{
+    "presets": [
+        [
+            "@babel/preset-react",
+            {
+                "runtime": "automatic"
+            }
+        ],
+        "@babel/preset-env" // new
+    ],
+
+    "plugins": [
+        "@babel/plugin-proposal-class-properties" // new
+    ]
+}
+```
+
+In `.eslintrc.json`:
+
+```
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:import/errors",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-hooks/recommended",
+        "prettier"
+    ],
+
+    "rules": {
+        "react/prop-types": 0,
+        "react/react-in-jsx-scope": 0
+    },
+
+    "plugins": ["react", "import", "jsx-a11y"],
+    "parser": "@babel/eslint-parser",           // new
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    },
+
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}
 ```
