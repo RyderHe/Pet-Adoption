@@ -2,6 +2,7 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
+import ThemeContext from "./ThemeContext";
 
 // const Details = () => {
 //     return (
@@ -50,7 +51,14 @@ class Details extends Component {
                 <div>
                     <h1>{name}</h1>
                     <h2>{`${animal} - ${breed} - ${city}, ${state}`}</h2>
-                    <button>Adopt {name}</button>
+
+                    {/* The folowing is kind of messy and less convenient... Use useContext instead like in SearchParams.js */}
+                    <ThemeContext.Consumer>
+                        {(themeHook) => (
+                            <button style={ { backgroundColor: themeHook[0] } }>Adopt {name}</button>
+                        )}
+                    </ThemeContext.Consumer>
+                    
                     <p>{description}</p>
                 </div>
             </div>
